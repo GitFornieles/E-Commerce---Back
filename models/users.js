@@ -5,7 +5,7 @@ const bc = require("bcrypt");
 class Users extends S.Model {
   //LLAMADA EN EL HOOK
   createHash(string, salt) {
-    //Esta función crea el hash que se almacena en el campo "password" del usuario en la base de datos. 
+    //Esta función crea el hash que se almacena en el campo "password" del usuario en la base de datos.
     //Parámetros: password ingresado por usuario y "salt" que se genera de forma aleatoria.
     return bc.hash(string, salt);
   }
@@ -17,28 +17,46 @@ class Users extends S.Model {
 
 Users.init(
   {
+    dni: {
+      type: S.INTEGER,
+      allowNull: false,
+    },
     nickname: {
-        type:S.STRING,
-        allowNull:false,
+      type: S.STRING,
+      allowNull: false,
     },
     email: {
       type: S.STRING,
       allowNull: false,
     },
-    name:{
-        type: S.STRING,
-        allowNull: false,
-      },
-    lastname:{
-        type: S.STRING,
-        allowNull: false,
-      },
-    age:{
-        type: S.INTEGER,
-        allowNull: false,
-      },
-      address:{},
-      
+    name: {
+      type: S.STRING,
+      allowNull: false,
+    },
+    lastname: {
+      type: S.STRING,
+      allowNull: false,
+    },
+    age: {
+      type: S.INTEGER,
+      allowNull: false,
+    },
+    address: {
+      type: S.STRING,
+      allowNull: false,
+    },
+    city: {
+      type: S.STRING,
+      allowNull: false,
+    },
+    postalCode: {
+      type: S.INTEGER,
+      allowNull: false,
+    },
+    cellphone: {
+      type: S.INTEGER,
+      allowNull: false,
+    },
     password: {
       type: S.STRING,
       allowNull: false,
@@ -46,14 +64,17 @@ Users.init(
     salt: {
       type: S.STRING,
     },
+    admin: {
+        type: S.BOOLEAN,
+        defaultValue:false
+      },
   },
   { sequelize: db, modelName: "user" }
 );
 
 Users.addHook("beforeCreate", (User) => {
   User.salt = bc.genSaltSync();
-  return User
-    .createHash(User.password, User.salt)
+  return User.createHash(User.password, User.salt)
     .then((result) => {
       User.password = result;
     })
