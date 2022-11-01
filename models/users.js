@@ -28,6 +28,7 @@ Users.init(
     email: {
       type: S.STRING,
       allowNull: false,
+      validate:{isEmail:true}
     },
     name: {
       type: S.STRING,
@@ -60,6 +61,7 @@ Users.init(
     password: {
       type: S.STRING,
       allowNull: false,
+      validate:{len:[8,20]}
     },
     salt: {
       type: S.STRING,

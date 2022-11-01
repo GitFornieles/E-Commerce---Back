@@ -7,21 +7,19 @@ const Image = require("./images");
 const Review = require("./review");
 const Wallet = require("./wallets");
 
-Cart.belongsTo(Users, { as: "ownerId" });
-Cart.hasMany(Product);
+Cart.belongsTo(Users, { as: "owner" });
 
-Payment.belongsTo(Users, { as: "ownerId" });
-Users.hasMany(Payment);
-purchaseOrder.belongsTo(Payment, { as: "paymentId" });
-Payment.belongsTo(Wallet, { as: "payMethodId" });
+Payment.belongsTo(Users, { as: "owner" });
+purchaseOrder.belongsTo(Payment, { as: "payment" });
+Payment.belongsTo(Wallet, { as: "payMethod" });
 
-Payment.belongsTo(purchaseOrder, { as: "purchaseId" });
-purchaseOrder.belongsTo(Users, { as: "ownerId" });
-purchaseOrder.belongsTo(Cart, { as: "cartId" });
+Payment.belongsTo(purchaseOrder, { as: "purchase" });
+purchaseOrder.belongsTo(Users, { as: "owner" });
+purchaseOrder.belongsTo(Cart, { as: "cart" });
 
 Image.belongsTo(Product);
 
 Review.belongsTo(Product);
-Review.belongsTo(Users, { as: "author" });
+Review.belongsTo(Users, { as: "owner" });
 
-Wallet.belongsTo(Users, { as: "ownerId" });
+Wallet.belongsTo(Users, { as: "owner" });
