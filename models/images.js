@@ -1,7 +1,7 @@
 const S = require("sequelize");
 const db = require("../db");
 
-class Image extends S.Model {} //aka "carrito de compras"
+class Image extends S.Model {}
 
 Image.init(
   {
