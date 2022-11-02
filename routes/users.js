@@ -1,4 +1,4 @@
-const { Users, Wallet } = require("../models/index");
+const { Users, Wallet, Cart } = require("../models/index");
 const express = require("express");
 const routerUsers = express.Router();
 const jwt = require("jsonwebtoken");
@@ -53,6 +53,7 @@ routerUsers.get("/allUsers", (req, res, next) => {
 //     nickname:
 //     password:
 // }
+
 routerUsers.post("/login", (req, res, next) => {
   const { nickname, password } = req.body;
   Users.findOne({ where: { nickname } }).then((foundUser) => {
@@ -61,7 +62,6 @@ routerUsers.post("/login", (req, res, next) => {
       foundUser.validatePassword(password).then((validated) => {
         if (!validated) return res.status(401).send("Invalid Password");
         else {
-
           let payload = {...foundUser};
           delete payload.password
           delete payload.salt
@@ -69,7 +69,7 @@ routerUsers.post("/login", (req, res, next) => {
           res.cookie("token", token);
           res.send(payload);
         }
-      });
+      }).catch(err=>console.log(err))
   });
 });
 
