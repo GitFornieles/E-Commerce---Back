@@ -7,8 +7,8 @@ const Image = require("./images");
 const Review = require("./review");
 const Wallet = require("./wallets");
 
-Cart.belongsTo(Users, { as: "ownerId" });
-Cart.hasMany(Product);
+Cart.belongsTo(Users, { as: "owner" });
+Product.hasMany(Cart, { as: "product" });
 
 Payment.belongsTo(Users, { as: "owner" });
 purchaseOrder.belongsTo(Payment, { as: "payment" });
@@ -25,4 +25,13 @@ Review.belongsTo(Users, { as: "owner" });
 
 Wallet.belongsTo(Users, { as: "owner" });
 
-module.exports={Users,Cart,Product,Payment,purchaseOrder,Image,Review,Wallet}
+module.exports = {
+  Users,
+  Cart,
+  Product,
+  Payment,
+  purchaseOrder,
+  Image,
+  Review,
+  Wallet,
+};
