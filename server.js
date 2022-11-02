@@ -9,19 +9,22 @@ const cors=require("cors")
 const port=8000
 
 //Middlewares
-// app.use(express.json());
+app.use(express.json());
 // app.use(cookies());
 // app.use(cors()) // Esto permite que el server acepte pedidos HTTP desde otros dominios
 
 //Routing
-// app.use("/api", routes);
+ app.use("/api", routes);
 // app.get("/*", (req, res) => {
 //   res.send("Nada por acá");
 // });
+app.get("/*", (req, res) => {
+  res.send("Nada por acá");
+});
 
 //DB
 //{ force: true }
-db.sync({ force: true }).then(() => {
+db.sync().then(() => {
   console.log("DataBase Connected");
   app.listen(port, () => {
     console.log(`Server listening at port ${port}`);
