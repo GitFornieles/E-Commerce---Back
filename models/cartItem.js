@@ -1,13 +1,17 @@
 const S = require("sequelize");
 const db = require("../db");
 
-class Cart extends S.Model {} //aka "carrito de compras"
+class CartItem extends S.Model {} //aka "carrito de compras"
 
-Cart.init(
+CartItem.init(
   {
     qty: {
       type: S.INTEGER,
       allowNull: false,
+    },
+    cartNum:{
+      type:S.INTEGER,
+      allowNull:false
     },
     purchaseStatus: {
       type: S.BOOLEAN,
@@ -25,7 +29,7 @@ Cart.init(
       defaultValue:true
     }
   },
-  { sequelize: db, modelName: "cart" }
+  { sequelize: db, modelName: "cartitem" }
 );
 
-module.exports = Cart;
+module.exports = CartItem;

@@ -1,4 +1,4 @@
-const { Users, Wallet, Cart } = require("../models/index");
+const { Users, Wallet, CartItem } = require("../models/index");
 const express = require("express");
 const routerUsers = express.Router();
 const jwt = require("jsonwebtoken");
@@ -47,6 +47,9 @@ routerUsers.get("/allUsers", (req, res, next) => {
     .catch((err) => console.log(err));
 });
 
+
+
+
 //RUTA DE LOGIN
 //Req.body=
 // {
@@ -54,24 +57,57 @@ routerUsers.get("/allUsers", (req, res, next) => {
 //     password:
 // }
 
+//Busca el nickname, si no lo encuentra devuelve error
+//Busca valida el password, si no valida, devuelve error
+//Almacena la información del usuario sin password ni salt
+//Busca si el id del usuario tiene items de carrito pendientes
+//Si tiene items de carrito pendientes, envía al front un objeto con: usuario, numero de carrito, items del carrito
+//Si no tiene items pendientes, envía al front: usuario, id generado, objeto vacío
 routerUsers.post("/login", (req, res, next) => {
   const { nickname, password } = req.body;
   Users.findOne({ where: { nickname } }).then((foundUser) => {
     if (!foundUser) res.status(401).send("User Not Found");
     else
-      foundUser.validatePassword(password).then((validated) => {
-        if (!validated) return res.status(401).send("Invalid Password");
-        else {
-          let payload = {...foundUser};
-          delete payload.password
-          delete payload.salt
-          let token = tokens.generateToken(payload);
-          res.cookie("token", token);
-          res.send(payload);
-        }
-      }).catch(err=>console.log(err))
+      foundUser
+        .validatePassword(password)
+        .then((validated) => {
+          if (!validated) return res.status(401).send("Invalid Password");
+          else {
+            let payload = { ...foundUser };
+            delete payload.password;
+            delete payload.salt;
+            let token = tokens.generateToken(payload);
+            res.cookie("token", token);
+            return payload
+          }
+        })
+        .then((payload) => {
+          CartItem.findAll({
+            where: { ownerId: payload.id, inProgress: true },
+          }).then((result) => {
+            const openCart = result;
+            const cartNum = result[0].cartNum || ""; GenerarNuevoNumeroDeCarrito(payload.id)
+            res
+              .status(200)
+              .send({ user: payload, cartNum: cartNum, cartItems: openCart });
+          });
+        })
+        .catch((err) => console.log(err));
   });
 });
+
+//Funeción para crear un Número de Carrito
+const GenerarNuevoNumeroDeCarrito = (num)=>{
+  let aleatorio=Math.floor(math.rand()*10000)
+  let tiempo = new Date.now()
+  return math.floor(tiempo/aleatorio+num)
+
+  return
+}
+
+
+
+
 
 //Ruta de creación de nuevo usuario
 // Req.body={
@@ -89,12 +125,11 @@ routerUsers.post("/login", (req, res, next) => {
 // }
 //   /api/users/new
 routerUsers.post("/new", (req, res, next) => {
-
   //1. Busco si el mail está registradp existe. Si es así, devuelvo un 208 y msg
   //2. Si el mail no está registrado, busco el nickname
   //3. Verifico que no esté tampoco el DNI
   //3. Si no existen en la DB mail nickname ni dni, creo usuario y lo mando al FRONT
-    Users.findOne({ where: { email: req.body.email } })
+  Users.findOne({ where: { email: req.body.email } })
     .then((result) => {
       if (result)
         res.status(208).send({ response: "Email already registered" });
@@ -137,7 +172,7 @@ routerUsers.post("/new", (req, res, next) => {
 });
 
 routerUsers.delete("/deleteUser/:id", (req, res) => {
-    const id=req.params.id
+  const id = req.params.id;
   Users.destroy({ where: { id: id } })
     .then(() =>
       Wallet.destroy({ where: { ownerId: id } }).then(() =>
@@ -176,6 +211,3 @@ routerUsers.post("/logout", (req, res) => {
 });
 
 module.exports = routerUsers;
-
-
-
