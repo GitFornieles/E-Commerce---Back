@@ -9,12 +9,16 @@ Product.init(
       type: S.STRING,
       allowNull: false,
     },
+    mainImage: {
+      type: S.STRING,
+      allowNull: false,
+    },
     categorie: {
       type: S.STRING,
       allowNull: false,
     },
     description: {
-        type: S.STRING,
+        type: S.TEXT,
         allowNull: false,
     },
     cost:{
@@ -30,7 +34,7 @@ Product.init(
         allowNull:false
     },
     rating:{
-        type:S.INTEGER,
+        type:S.FLOAT,
     },
   },
   { sequelize: db, modelName: "product" }
