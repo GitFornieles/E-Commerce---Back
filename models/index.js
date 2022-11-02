@@ -7,7 +7,8 @@ const Image = require("./images");
 const Review = require("./review");
 const Wallet = require("./wallets");
 
-Cart.belongsTo(Users, { as: "owner" });
+Cart.belongsTo(Users, { as: "ownerId" });
+Cart.hasMany(Product);
 
 Payment.belongsTo(Users, { as: "owner" });
 purchaseOrder.belongsTo(Payment, { as: "payment" });
