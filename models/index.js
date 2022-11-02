@@ -24,3 +24,5 @@ Review.belongsTo(Product);
 Review.belongsTo(Users, { as: "owner" });
 
 Wallet.belongsTo(Users, { as: "owner" });
+
+module.exports={Users,Cart,Product,Payment,purchaseOrder,Image,Review,Wallet}
