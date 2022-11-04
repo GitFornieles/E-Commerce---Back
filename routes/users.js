@@ -48,8 +48,6 @@ routerUsers.get("/allUsers", (req, res, next) => {
 });
 
 
-
-
 //RUTA DE LOGIN
 //Req.body=
 // {
@@ -101,12 +99,7 @@ const GenerarNuevoNumeroDeCarrito = (num)=>{
   let aleatorio=Math.floor(math.rand()*10000)
   let tiempo = new Date.now()
   return math.floor(tiempo/aleatorio+num)
-
-  return
 }
-
-
-
 
 
 //Ruta de creación de nuevo usuario
@@ -143,7 +136,7 @@ routerUsers.post("/new", (req, res, next) => {
                 if (result)
                   res
                     .status(208)
-                    .send({ response: "El DNI nya se encuentra registrado" });
+                    .send({ response: "El DNI ya se encuentra registrado" });
                 else {
                   newUser = {
                     dni: req.body.dni,
