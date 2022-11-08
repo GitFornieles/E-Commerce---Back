@@ -39,13 +39,6 @@ routerUsers.get("/", (req, res, next) => {
 });
 
 //Ruta que devuelve universo de usuarios
-routerUsers.get("/allUsers", (req, res, next) => {
-  Users.findAll()
-    .then((result) => {
-      res.status(200).send(result);
-    })
-    .catch((err) => console.log(err));
-});
 
 
 //RUTA DE LOGIN

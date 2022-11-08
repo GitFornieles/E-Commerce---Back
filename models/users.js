@@ -13,6 +13,12 @@ class Users extends S.Model {
     //función para validar el password ingresado en el login
     return bc.hash(password, this.salt).then((hash) => hash === this.password);
   }
+  setAdmin() {
+    this.admin = true;
+  }
+  unSetAdmin() {
+    this.admin = false;
+  }
 }
 
 Users.init(
@@ -28,7 +34,7 @@ Users.init(
     email: {
       type: S.STRING,
       allowNull: false,
-      validate:{isEmail:true}
+      validate: { isEmail: true },
     },
     name: {
       type: S.STRING,
@@ -55,21 +61,21 @@ Users.init(
       allowNull: false,
     },
     cellphone: {
-      type: S.INTEGER,
+      type: S.BIGINT,
       allowNull: false,
     },
     password: {
       type: S.STRING,
       allowNull: false,
-      validate:{len:[8,20]}
+      validate: { len: [8, 20] },
     },
     salt: {
       type: S.STRING,
     },
     admin: {
-        type: S.BOOLEAN,
-        defaultValue:false
-      },
+      type: S.BOOLEAN,
+      defaultValue: false,
+    },
   },
   { sequelize: db, modelName: "user" }
 );
