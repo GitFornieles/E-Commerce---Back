@@ -2,7 +2,7 @@ const S = require("sequelize");
 const db = require("../db");
 const bc = require("bcrypt");
 
-class Users extends S.Model {
+class User extends S.Model {
   //LLAMADA EN EL HOOK
   createHash(string, salt) {
     //Esta función crea el hash que se almacena en el campo "password" del usuario en la base de datos.
@@ -15,7 +15,7 @@ class Users extends S.Model {
   }
 }
 
-Users.init(
+User.init(
   {
     dni: {
       type: S.INTEGER,
@@ -74,7 +74,7 @@ Users.init(
   { sequelize: db, modelName: "user" }
 );
 
-Users.addHook("beforeCreate", (User) => {
+User.addHook("beforeCreate", (User) => {
   User.salt = bc.genSaltSync();
   return User.createHash(User.password, User.salt)
     .then((result) => {
@@ -83,4 +83,4 @@ Users.addHook("beforeCreate", (User) => {
     .catch((err) => console.log(err));
 });
 
-module.exports = Users;
+module.exports = User;
