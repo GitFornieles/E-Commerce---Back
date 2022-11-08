@@ -1,16 +1,17 @@
 const express = require("express");
 const router = express.Router();
-const routerUsers = require("./users")
-const routerWallet = require("./wallets")
+const routerUsers = require("./users");
+const routerWallet = require("./wallets");
 const routerproducts = require("./products");
-const routerCart=require("./cart")
-const routerPayments=require("./payments")
+const routerCart = require("./cart");
+const routerAdmin = require("./admin");const routerPayments=require("./payments")
 
 
 router.use("/products", routerproducts);
-router.use("/users",routerUsers)
-router.use("/wallet",routerWallet)
-router.use("/cart",routerCart)
-router.use("/payment",routerPayments)
+router.use("/users", routerUsers);
+router.use("/wallet", routerWallet);
+router.use("/cart", routerCart);
+router.use("/admin", routerAdmin);
 
-module.exports=router
+module.exports = router;
+router.use("/payment",routerPayments)
