@@ -54,6 +54,7 @@ routerUsers.get("/", (req, res, next) => {
 //Si tiene Cart pendiente, envía al front un objeto con: {user:usuario, cartId:numero de carrito, products:[items del carrito]}
 //Si no tiene Cart pendiente, envía al front: {user:usuario, cartId:numero de carrito, products:[]}
 routerUsers.post("/login", (req, res, next) => {
+  console.log("llegamos al login")
   const { nickname, password } = req.body;
   User.findOne({ where: { nickname } }).then((foundUser) => {
     if (!foundUser) res.status(401).send("User Not Found");

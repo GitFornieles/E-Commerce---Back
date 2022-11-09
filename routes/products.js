@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Product = require("../models/index");
+const {Product} = require("../models/index");
 const { Op } = require("sequelize");
 
 router.get("/", (req, res) => {
