@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const { Users } = require("../models/");
+const { User } = require("../models/index");
 const tokens = require("../middleware/tokens/tokens");
+const { Op } = require("sequelize");
 
-router.get("/allUsers", (req, res) => {
-  Users.findAll({ where: { [Op.not]: req.body } })
+router.get("/allUser", (req, res) => {
+  User.findAll({ where: { [Op.not]: req.body } })
     .then((result) => {
       res.status(200).send(result);
     })
@@ -13,20 +14,26 @@ router.get("/allUsers", (req, res) => {
 
 //el body deberia enviar info del usuario
 router.delete("/deleteUser", (req, res) => {
-  Users.destroy({ where: req.body }).then(() => res.sendStatus(201));
+  User.destroy({ where: req.body }).then(() => res.sendStatus(201));
 });
 
 router.put("/createAdmin", (req, res) => {
-  Users.update({ where: req.body }).then((user) => user.setAdmin());
+  User.update(
+    { admin: true },
+    { where: { nickname: req.body.nickname } }
+  ).then(() => res.status(200).send("Usuario admin"));
 });
 
 router.put("/deleteAdmin", (req, res) => {
-  Users.update({ where: req.body }).then((user) => user.unSetAdmin());
+  User.update(
+    { admin: false },
+    { where: { nickname: req.body.nickname } }
+  ).then(() => res.status(200).send("Usuario ya no es admin"));
 });
 
 router.post("/login", (req, res, next) => {
   const { nickname, password } = req.body;
-  Users.findOne({ where: { nickname: nickname, admin: true } }).then(
+  User.findOne({ where: { nickname: nickname, admin: true } }).then(
     (foundUser) => {
       if (!foundUser)
         res.status(401).send("User Not Found or User is not an Admin");

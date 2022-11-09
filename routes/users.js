@@ -54,7 +54,7 @@ routerUsers.get("/", (req, res, next) => {
 //Si tiene Cart pendiente, envía al front un objeto con: {user:usuario, cartId:numero de carrito, products:[items del carrito]}
 //Si no tiene Cart pendiente, envía al front: {user:usuario, cartId:numero de carrito, products:[]}
 routerUsers.post("/login", (req, res, next) => {
-  console.log("llegamos al login")
+  console.log("llegamos al login");
   const { nickname, password } = req.body;
   User.findOne({ where: { nickname } }).then((foundUser) => {
     if (!foundUser) res.status(401).send("User Not Found");
@@ -73,7 +73,7 @@ routerUsers.post("/login", (req, res, next) => {
           }
         })
         .then((payload) => {
-          payload=payload.dataValues
+          payload = payload.dataValues;
           Cart.findOne({
             where: { ownerId: payload.id, inProgress: true },
           }).then((currentCart) => {
@@ -92,7 +92,7 @@ routerUsers.post("/login", (req, res, next) => {
               Cart.create()
                 .then((currentCart) => currentCart.setOwner(foundUser))
                 .then((currentCart) => {
-                  currentCart=currentCart.dataValues
+                  currentCart = currentCart.dataValues;
                   res.status(200).send({
                     user: payload,
                     cartId: currentCart.id,
@@ -154,6 +154,7 @@ routerUsers.post("/new", (req, res, next) => {
                     postalCode: req.body.postalCode,
                     cellphone: req.body.cellphone,
                     password: req.body.password,
+                    admin: req.body.admin,
                   };
                   User.create(newUser).then((result) => {
                     delete result.salt;
