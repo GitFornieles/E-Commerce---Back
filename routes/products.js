@@ -7,13 +7,13 @@ router.get("/", (req, res) => {
   Product.findAll().then((products) => res.send(products));
 });
 
-router.get("/:categorie", (req, res) => {
+router.get("/categorie/:categorie", (req, res) => {
   Product.findAll({ where: req.params.categorie }).then((products) =>
     res.send(products)
   );
 });
 
-router.get("/:name", (req, res) => {
+router.get("/name/:name", (req, res) => {
   let valueToFind = req.params.name.toString();
   Product.findAll({ where: { [Op.like]: valueToFind } }).then((products) => {
     res.send(products);
