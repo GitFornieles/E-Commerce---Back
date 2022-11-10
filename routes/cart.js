@@ -20,22 +20,35 @@ routerCart.post("/userCarts", (req, res) => {
 // Ruta para obtener carrito vigente de un usuario
 //El front envía el ownerId (id del usuario)
 routerCart.post("/currentCart", (req, res) => {
-  const id = req.body.ownerId;
-  Cart.findOne({ where: { ownerId: id, inProgress: true } })
-    .then((result) => res.status(200).send(result))
-    .catch((err) => console.log(err));
+  if (!req.body.ownerId) res.send("Debe loguearse");
+  else {
+    const id = req.body.ownerId;
+    Cart.findOne({ where: { ownerId: id, inProgress: true } })
+      .then((currentCart) => {
+        CartItem.findAll({
+          where: { cartId: currentCart.id },
+          include: Product,
+        }).then((result) =>
+          res.status(200).send({ cartId: currentCart.id, productos: result })
+        );
+      })
+      .catch((err) => console.log(err));
+  }
 });
 
-// Ruta de obtención de todo el detalle de un carrito en particular
-//El front envía el cartId (id del Cart)
+// Ruta de obtención de todo el detalle de un carrito en particular VIGENTE O NO
+// El front envía el cartId (id del Cart)
 routerCart.post("/", (req, res) => {
-  CartItem.findAll(
-    { where: { cartId: req.body.cartId } },
-    { include: { Product } }
-  )
-    .then((result) => {
-      console.log(result);
-      res.status(200).send(result);
+  const id = req.body.cartId;
+  Cart.findByPk(id)
+    .then((currentCart) => {
+      console.log("currentCardId", currentCart.id);
+      CartItem.findAll({
+        where: { cartId: currentCart.id },
+        include: Product,
+      }).then((result) =>
+        res.status(200).send({ cartId: currentCart.id, productos: result })
+      );
     })
     .catch((err) => console.log(err));
 });

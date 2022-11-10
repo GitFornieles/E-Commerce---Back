@@ -4,8 +4,9 @@ const { User } = require("../models/index");
 const tokens = require("../middleware/tokens/tokens");
 const { Op } = require("sequelize");
 
-router.get("/allUser", (req, res) => {
-  User.findAll({ where: { [Op.not]: req.body } })
+router.get("/allUser/:user", (req, res) => {
+  const user = req.params.user;
+  User.findAll({ where: { [Op.not]: { nickname: user } } })
     .then((result) => {
       res.status(200).send(result);
     })
@@ -33,6 +34,7 @@ router.put("/deleteAdmin", (req, res) => {
 
 router.post("/login", (req, res, next) => {
   const { nickname, password } = req.body;
+
   User.findOne({ where: { nickname: nickname, admin: true } }).then(
     (foundUser) => {
       if (!foundUser)
@@ -48,7 +50,9 @@ router.post("/login", (req, res, next) => {
               delete payload.salt;
               let token = tokens.generateToken(payload);
               res.cookie("token", token);
-              return payload;
+
+              // Aca cambie el return a res.send(payload) porque sino no me funcionaba:
+              res.send(payload);
             }
           })
           .catch((err) => console.log(err));
