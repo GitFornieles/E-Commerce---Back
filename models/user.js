@@ -24,7 +24,7 @@ class User extends S.Model {
 User.init(
   {
     dni: {
-      type: S.INTEGER,
+      type: S.BIGINT,
       allowNull: false,
     },
     nickname: {

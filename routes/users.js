@@ -1,4 +1,4 @@
-const { User, Cart, CartItem } = require("../models/index");
+const { User, Cart, CartItem, Product } = require("../models/index");
 const express = require("express");
 const routerUsers = express.Router();
 const jwt = require("jsonwebtoken");
@@ -54,7 +54,6 @@ routerUsers.get("/", (req, res, next) => {
 //Si tiene Cart pendiente, envía al front un objeto con: {user:usuario, cartId:numero de carrito, products:[items del carrito]}
 //Si no tiene Cart pendiente, envía al front: {user:usuario, cartId:numero de carrito, products:[]}
 routerUsers.post("/login", (req, res, next) => {
-  console.log("llegamos al login")
   const { nickname, password } = req.body;
   User.findOne({ where: { nickname } }).then((foundUser) => {
     if (!foundUser) res.status(401).send("User Not Found");
@@ -77,9 +76,8 @@ routerUsers.post("/login", (req, res, next) => {
           Cart.findOne({
             where: { ownerId: payload.id, inProgress: true },
           }).then((currentCart) => {
-            //res.send(currentCart)
             if (currentCart)
-              CartItem.findAll({ where: { cartId: currentCart.id } }).then(
+              CartItem.findAll({ where: { cartId: currentCart.id },include:Product}).then(
                 (currentProducts) => {
                   res.status(200).send({
                     user: payload,
