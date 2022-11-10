@@ -14,17 +14,17 @@ class User extends S.Model {
     return bc.hash(password, this.salt).then((hash) => hash === this.password);
   }
   setAdmin() {
-    this.admin = true;
+    return this.setDataValue("admin", true);
   }
   unSetAdmin() {
-    this.admin = false;
+    return (this.admin = false);
   }
 }
 
 User.init(
   {
     dni: {
-      type: S.INTEGER,
+      type: S.BIGINT,
       allowNull: false,
     },
     nickname: {

@@ -4,9 +4,10 @@ const routerUsers = require("./users");
 const routerWallet = require("./wallets");
 const routerproducts = require("./products");
 const routerCart = require("./cart");
-const routerAdmin = require("./admin");const routerPayments=require("./payments");
-const routerReviews = require("./reviews");
 
+const routerAdmin = require("./admin");
+const routerPayments=require("./payments");
+const routerReviews = require("./reviews");
 
 router.use("/products", routerproducts);
 router.use("/users", routerUsers);

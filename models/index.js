@@ -16,6 +16,7 @@ const Cart = require("./cart")
 //CartItem.belongsTo(User, { as: "owner" }); //En la tabla CartItem crea la columna ownerId -> VER SI SE USA PARA ALGO
 //Product.hasMany(CartItem, { as: "product" }); //En la tabla CartItem crea la columna productId
 CartItem.belongsTo(Product)
+Product.hasMany(CartItem)
 
 Payment.belongsTo(User, { as: "owner" }); //En la tabla Payment crea la columna ownerId
 //purchaseOrder.belongsTo(Payment, { as: "payment" });
