@@ -8,6 +8,7 @@ Payment.init(
     status: {
       type: S.STRING,
       allowNull: false,
+      defaultValue: true
     },
     total: {
       type: S.INTEGER,
@@ -19,4 +20,4 @@ Payment.init(
 
 module.exports = Payment;
 
-//Los campos "walletItem" "ownerId" "purchaseId" se crean con la relación en indexedDB.js
+//Los campos "ownerId" "cartId" se crean con la relación en indexedDB.js

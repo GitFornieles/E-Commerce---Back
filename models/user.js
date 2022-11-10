@@ -2,7 +2,7 @@ const S = require("sequelize");
 const db = require("../db");
 const bc = require("bcrypt");
 
-class Users extends S.Model {
+class User extends S.Model {
   //LLAMADA EN EL HOOK
   createHash(string, salt) {
     //Esta función crea el hash que se almacena en el campo "password" del usuario en la base de datos.
@@ -13,12 +13,18 @@ class Users extends S.Model {
     //función para validar el password ingresado en el login
     return bc.hash(password, this.salt).then((hash) => hash === this.password);
   }
+  setAdmin() {
+    return this.setDataValue("admin", true);
+  }
+  unSetAdmin() {
+    return (this.admin = false);
+  }
 }
 
-Users.init(
+User.init(
   {
     dni: {
-      type: S.INTEGER,
+      type: S.BIGINT,
       allowNull: false,
     },
     nickname: {
@@ -28,7 +34,7 @@ Users.init(
     email: {
       type: S.STRING,
       allowNull: false,
-      validate:{isEmail:true}
+      validate: { isEmail: true },
     },
     name: {
       type: S.STRING,
@@ -55,26 +61,26 @@ Users.init(
       allowNull: false,
     },
     cellphone: {
-      type: S.INTEGER,
+      type: S.BIGINT,
       allowNull: false,
     },
     password: {
       type: S.STRING,
       allowNull: false,
-      validate:{len:[8,20]}
+      validate: { len: [8, 20] },
     },
     salt: {
       type: S.STRING,
     },
     admin: {
-        type: S.BOOLEAN,
-        defaultValue:false
-      },
+      type: S.BOOLEAN,
+      defaultValue: false,
+    },
   },
   { sequelize: db, modelName: "user" }
 );
 
-Users.addHook("beforeCreate", (User) => {
+User.addHook("beforeCreate", (User) => {
   User.salt = bc.genSaltSync();
   return User.createHash(User.password, User.salt)
     .then((result) => {
@@ -83,4 +89,4 @@ Users.addHook("beforeCreate", (User) => {
     .catch((err) => console.log(err));
 });
 
-module.exports = Users;
+module.exports = User;

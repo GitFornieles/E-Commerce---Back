@@ -7,12 +7,12 @@ module.exports = {
       "products",
       [
         {
-          name: "Combo Full Verbena",
+          name: "VELA CITRONELLA",
           mainImage:
-            "https://www.vzlivesimply.com/wp/wp-content/uploads/2020/06/COMBO-VERBENA-21-scaled.jpg",
-          categorie: "Aromatizantes",
+            "https://www.thecandleshop.com.ar/public/assets//1047/gc_1635520954Cl10.jpg",
+          categorie: "Velas",
           description:
-            "El Combo perfecto para aromatizar los ambientes con la deliciosa fragancia de la verbena. Su aroma cítrico perfuma y brinda frescura.",
+            "Vela en vaso de vidrio cónico beige con destellos (6,5 cm base x 8,5 cm altura) en estuche decorativo para obsequio",
           cost: 3000,
           price: 6900,
           stock: 5,
@@ -21,12 +21,12 @@ module.exports = {
           updatedAt: new Date()
         },
         {
-          name: "Aromatizador de Ambiente Coco y Lima",
+          name: "DIFUSOR DE AMBIENTE GREY TILO BAMBOO",
           mainImage:
-            "https://www.vzlivesimply.com/wp/wp-content/uploads/2018/12/DSC_6524-Editar.jpg",
-          categorie: "Aromatizantes",
+            "https://www.thecandleshop.com.ar/public/assets//448/gt_1525975266A17TB_b.jpg",
+          categorie: "Difusores",
           description:
-            "Aromatizante de ambiente en spray que por su aroma dulce e intenso, formado por la combinación de coco y lima, posibilita crear un ambiente propicio para reducir los niveles de stress.",
+            "Set idea para lograr una aromatizador total en tus ambientes. Colocá el difusor de ambientes en el espacio que elijas y reforza su fragancia utilizando el aromatizador.",
           cost: 500,
           price: 1900,
           stock: 4,
@@ -35,12 +35,12 @@ module.exports = {
           updatedAt: new Date()
         },
         {
-          name: "Aromatizador de Ambiente This Is Love",
+          name: "AROMATIZADOR DE AMBIENTES Y TEXTIL BOUQUET DE ROSA",
           mainImage:
-            "https://www.vzlivesimply.com/wp/wp-content/uploads/2018/12/DSC_6667-Editar.jpg",
-          categorie: "Aromatizantes",
+            "https://www.thecandleshop.com.ar/public/assets//1029/gt_1632154276A31PM_a.jpg",
+          categorie: "Aromatizadores",
           description:
-            "Su fragancia estimulante y refrescante induce a un estado de ánimo reconfortante y vivificante. Es el complemento ideal para intensificar la fragancia del difusor This is Love.",
+            "Fragancia aromática de notas suaves, dulces y especiadas. Recoge toda la calidez y la sensualidad de la vainilla. El combo ideal para todos tus ambientes!",
           cost: 800,
           price: 2750,
           stock: 3,
@@ -49,10 +49,10 @@ module.exports = {
           updatedAt: new Date()
         },
         {
-          name: "Aromatizador de Ambiente Amate",
+          name: "PACK AROMA STONE ACQUA",
           mainImage:
-            "https://www.vzlivesimply.com/wp/wp-content/uploads/2018/12/DSC_8993-Editar-2.jpg",
-          categorie: "Aromatizantes",
+            "https://www.thecandleshop.com.ar/public/assets//829/gt_1610046453PS02A_c.jpg",
+          categorie: "Escencias",
           description:
             "Aromatiza el ambiente con una fragancia herbal y cítrica, su perfume fresco e intenso. Ideal para vaporizar en los ambientes y conectarnos con la naturaleza para sentirnos en armonía.",
           cost: 900,

@@ -1,0 +1,9 @@
+
+Tiene que estar instalado el módulo sequelize-cli
+
+npm i sequelize-cli
+
+
+Comando que inyecta info:
+
+npx sequelize-cli db:seed:all

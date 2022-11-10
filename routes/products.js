@@ -1,9 +1,25 @@
 const express = require("express");
 const router = express.Router();
-const Product = require("../models/products");
+const { Product } = require("../models/index");
+const { Op } = require("sequelize");
 
 router.get("/", (req, res) => {
   Product.findAll().then((products) => res.send(products));
+});
+
+router.get("/categorie/:categorie", (req, res) => {
+  Product.findAll({ where: {categorie : req.params.categorie }}).then((products) =>
+    res.send(products)
+  );
+});
+
+
+
+router.get("/name/:name", (req, res) => {
+  let valueToFind = req.params.name.toString();
+  Product.findAll({ where: { [Op.like]: valueToFind } }).then((products) => {
+    res.send(products);
+  });
 });
 
 router.get("/:id", (req, res) => {
