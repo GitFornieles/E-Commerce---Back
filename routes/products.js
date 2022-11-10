@@ -8,10 +8,12 @@ router.get("/", (req, res) => {
 });
 
 router.get("/categorie/:categorie", (req, res) => {
-  Product.findAll({ where: req.params.categorie }).then((products) =>
+  Product.findAll({ where: {categorie : req.params.categorie }}).then((products) =>
     res.send(products)
   );
 });
+
+
 
 router.get("/name/:name", (req, res) => {
   let valueToFind = req.params.name.toString();

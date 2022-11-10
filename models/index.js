@@ -27,8 +27,8 @@ Payment.belongsTo(User, { as: "owner" }); //En la tabla Payment crea la columna 
 Image.belongsTo(Product);
 
 Review.belongsTo(Product);
-Review.belongsTo(User, { as: "owner" }); // En la tabla Review agrega la columna ownerId
-
+Review.belongsTo(User); // En la tabla Review agrega la columna ownerId
+User.hasMany(Review)
 
 
 // const DataTypes = require('sequelize/lib/data-types');
