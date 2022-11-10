@@ -18,7 +18,7 @@ routerCart.post("/userCarts", (req, res) => {
 });
 
 // Ruta para obtener carrito vigente de un usuario
-//El front envía el ownerId (id del usuario)
+// El front envía el ownerId (id del usuario)
 routerCart.post("/currentCart", (req, res) => {
   if (!req.body.ownerId) res.send("Debe loguearse");
   else {
@@ -61,15 +61,11 @@ routerCart.post("/", (req, res) => {
 // - productId
 
 // 1 - RESETEO LA CANTIDAD en cartItem del productId donde cartId sea el enviado
-//
-routerCart.put("/addProduct", (req, res) => {
-  const { ownerId, cartId, qty, productId } = req.body;
-  CartItem.update(
-    { qty: qty },
-    { where: { cartiD: cartId, productId: productId } }
-  )
-    .then((result) => res.status(202).send(result))
-    .catch((err) => console.log(err));
+// req.body=[{prodId,qty,cartId},{prodId,qty,cartId},{prodId,qty,cartId},{prodId,qty,cartId},{prodId,qty,cartId}]
+routerCart.put("/saveCart", (req, res) => {
+  CartItem.bulkCreate(req.body, {
+    updateOnDuplicate: ["qty"],
+  })
 });
 
 //Ruta para eliminar un producto del carrito
@@ -101,16 +97,31 @@ routerCart.delete("/remProduct", (req, res) => {
 
 routerCart.post("/addProduct", (req, res) => {
   const { cartId, productId, qty } = req.body;
-  Cart.findByPk(cartId)
-    .then((currentCart) => {
-      Product.findByPk(productId)
-        .then((currentProduct) => {
-          const newItem = { qty: qty, purchasedPrice: currentProduct.price };
-          CartItem.create(newItem)
-            .then((addedItem) => addedItem.setCart(currentCart))
-            .then((addedItem) => addedItem.setProduct(currentProduct));
-        })
-        .then(() => res.status(202).send("Producto Agregado"));
+  CartItem.findOne({ where: { cartId: cartId, productId: productId } })
+    .then((productoEncontrado) => {
+      if (!productoEncontrado) {
+        Cart.findByPk(cartId)
+          .then((currentCart) => {
+            Product.findByPk(productId)
+              .then((currentProduct) => {
+                const newItem = {
+                  qty: qty,
+                  purchasedPrice: currentProduct.price,
+                };
+                CartItem.create(newItem)
+                  .then((addedItem) => addedItem.setCart(currentCart))
+                  .then((addedItem) => addedItem.setProduct(currentProduct));
+              })
+              .then(() => res.status(202).send());
+          })
+          .catch((err) => console.log(err));
+      } else {
+        const newQty = qty + productoEncontrado.qty;
+        CartItem.update(
+          { qty: newQty },
+          { where: { cartId: cartId, productId: productId } }
+        ).then(() => res.status(202).send());
+      }
     })
     .catch((err) => console.log(err));
 });

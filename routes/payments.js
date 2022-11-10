@@ -27,6 +27,8 @@ routerPayments.post("/user", (req, res) => {
 // Cambia el cart purchasedStatus a true
 // Cambia el cart shippingStatus a true
 // Cambia el cart inProgress a false
+// Genera carrito nuevo para este user
+// manda el carrito nuevo al front
 
 // req.body={
 //     ownerId:
@@ -47,10 +49,19 @@ routerPayments.post("/", (req, res) => {
                     purchasedStatus: true,
                     shippingStatus: true,
                     inProgress: false,
+                    total:total
                   },
                   { where: { id: cartId } }
                 ).then(() => {
-                  res.status(202).send(newPayment);
+                  Cart.create()
+                  .then((currentCart) => currentCart.setOwner(user))
+                  .then((currentCart) => {
+                    currentCart=currentCart.dataValues
+                    res.status(200).send({
+                      cartId: currentCart.id,
+                      payment:newPayment
+                    });
+                  });;
                 });
               });
             });
