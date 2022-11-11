@@ -1,6 +1,6 @@
 const express = require("express");
 const routerPayments = express.Router();
-const { Payment, Cart, User } = require("../models/index");
+const { Payment, Cart, User, Product } = require("../models/index");
 
 //Ruta para ver todos los payments registrados
 routerPayments.get("/", (req, res) => {
@@ -36,7 +36,8 @@ routerPayments.post("/user", (req, res) => {
 //     total:
 // }
 routerPayments.post("/", (req, res) => {
-  const { ownerId, cartId, total } = req.body;
+  const { ownerId, cartId, total, consumos } = req.body;
+  console.log(req.body);
   User.findByPk(ownerId)
     .then((user) =>
       Cart.findByPk(cartId).then((cart) => {
@@ -49,19 +50,19 @@ routerPayments.post("/", (req, res) => {
                     purchasedStatus: true,
                     shippingStatus: true,
                     inProgress: false,
-                    total:total
+                    total: total,
                   },
                   { where: { id: cartId } }
                 ).then(() => {
                   Cart.create()
-                  .then((currentCart) => currentCart.setOwner(user))
-                  .then((currentCart) => {
-                    currentCart=currentCart.dataValues
-                    res.status(200).send({
-                      cartId: currentCart.id,
-                      payment:newPayment
+                    .then((currentCart) => currentCart.setOwner(user))
+                    .then((currentCart) => {
+                      currentCart = currentCart.dataValues;
+                      res.status(200).send({
+                        cartId: currentCart.id,
+                        payment: newPayment,
+                      });
                     });
-                  });;
                 });
               });
             });
@@ -70,6 +71,11 @@ routerPayments.post("/", (req, res) => {
       })
     )
     .catch((err) => console.log(err));
+  consumos.map((elemento) => {
+    Product.findByPk(elemento.productId)
+      .then((product) => product.consumeStock(elemento.sold))
+      .catch((err) => console.log(err));
+  });
 });
 
 module.exports = routerPayments;

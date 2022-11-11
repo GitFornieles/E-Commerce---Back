@@ -1,7 +1,12 @@
 const S = require("sequelize");
 const db = require("../db");
 
-class Product extends S.Model {} //aka "carrito de compras"
+class Product extends S.Model {
+  consumeStock(qty){
+    const newStock=this.stock-qty
+    return this.set("stock",newStock).save().then(self=>self)
+  }
+} 
 
 Product.init(
   {

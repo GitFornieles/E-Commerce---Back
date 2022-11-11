@@ -1,6 +1,6 @@
 const express = require("express");
 const routerCart = express.Router();
-const { CartItem, User, Product, Cart, Payment } = require("../models/index");
+const { CartItem, Product, Cart } = require("../models/index");
 
 // RUTA "/api/cart"
 
@@ -42,7 +42,6 @@ routerCart.post("/", (req, res) => {
   const id = req.body.cartId;
   Cart.findByPk(id)
     .then((currentCart) => {
-      console.log("currentCardId", currentCart.id);
       CartItem.findAll({
         where: { cartId: currentCart.id },
         include: Product,
@@ -76,7 +75,7 @@ routerCart.put("/saveCart", (req, res) => {
 // - productId
 
 // Elimino la linea de producId donde cartId sea el enviado
-routerCart.delete("/remProduct", (req, res) => {
+routerCart.post("/remProduct", (req, res) => {
   const { cartId, productId } = req.body;
   CartItem.destroy({ where: { cartId: cartId, productId: productId } })
     .then(() => res.status(202).send("Producto eliminado"))

@@ -20,7 +20,6 @@ routerReviews.post("/", (req, res) => {
 
 routerReviews.get("/comentarios/:id", (req, res) => {
   const productId= req.params.id
-  console.log(productId);
   Review.findAll({ where: { productId } }).then((comentarios) =>
     res.send(comentarios)
   );

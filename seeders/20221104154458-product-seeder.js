@@ -15,7 +15,7 @@ module.exports = {
             "Vela en vaso de vidrio cónico beige con destellos (6,5 cm base x 8,5 cm altura) en estuche decorativo para obsequio",
           cost: 3000,
           price: 6900,
-          stock: 5,
+          stock: 5000,
           rating: 3,
           createdAt: new Date(),
           updatedAt: new Date()
@@ -29,7 +29,7 @@ module.exports = {
             "Set idea para lograr una aromatizador total en tus ambientes. Colocá el difusor de ambientes en el espacio que elijas y reforza su fragancia utilizando el aromatizador.",
           cost: 500,
           price: 1900,
-          stock: 4,
+          stock: 4000,
           rating: 3,
           createdAt: new Date(),
           updatedAt: new Date()
@@ -43,7 +43,7 @@ module.exports = {
             "Fragancia aromática de notas suaves, dulces y especiadas. Recoge toda la calidez y la sensualidad de la vainilla. El combo ideal para todos tus ambientes!",
           cost: 800,
           price: 2750,
-          stock: 3,
+          stock: 3000,
           rating: 4,
           createdAt: new Date(),
           updatedAt: new Date()
@@ -57,7 +57,7 @@ module.exports = {
             "Aromatiza el ambiente con una fragancia herbal y cítrica, su perfume fresco e intenso. Ideal para vaporizar en los ambientes y conectarnos con la naturaleza para sentirnos en armonía.",
           cost: 900,
           price: 2540,
-          stock: 10,
+          stock: 10000,
           rating: 2,
           createdAt: new Date(),
           updatedAt: new Date()

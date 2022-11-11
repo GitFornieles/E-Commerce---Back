@@ -77,7 +77,8 @@ routerUsers.post("/login", (req, res, next) => {
             where: { ownerId: payload.id, inProgress: true },
           }).then((currentCart) => {
             if (currentCart)
-              CartItem.findAll({ where: { cartId: currentCart.id },include:Product}).then(
+              {
+                CartItem.findAll({ where: { cartId: currentCart.id },include:Product}).then(
                 (currentProducts) => {
                   res.status(200).send({
                     user: payload,
@@ -85,7 +86,7 @@ routerUsers.post("/login", (req, res, next) => {
                     products: currentProducts,
                   });
                 }
-              );
+              );}
             else {
               Cart.create()
                 .then((currentCart) => currentCart.setOwner(foundUser))
