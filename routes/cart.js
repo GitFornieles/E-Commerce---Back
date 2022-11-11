@@ -128,8 +128,8 @@ routerCart.post("/addProduct", (req, res) => {
 //Ruta para VACIAR carrito
 //Front manda
 // {cartId}
-routerCart.post("cancelCart", (req, res) => {
-  CartItem.destroy({ where: { cartId: req.bodycartId } })
+routerCart.post("/emptyCart", (req, res) => {
+  CartItem.destroy({ where: { cartId: req.body.cartId } })
     .then(() => res.status(202).send("Ok"))
     .catch((err) => console.log(err));
 });
