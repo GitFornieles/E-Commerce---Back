@@ -254,7 +254,7 @@ module.exports = {
           cost: 547,
           price: 2587,
           stock: 147,
-          rating: 45,
+          rating: 4,
           createdAt: new Date(),
           updatedAt: new Date()
         },
